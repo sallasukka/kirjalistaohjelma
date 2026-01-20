@@ -4,13 +4,16 @@
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
 # Build output
+# Ignore build directories
 bin/
 obj/
 
 # User-specific files
 *.rsuser
 *.suo
+# Visual Studio / C# common ignores
 *.user
+*.suo
 *.userosscache
 *.sln.docstates
 *.env
@@ -130,6 +133,7 @@ ipch/
 *.cachefile
 *.VC.db
 *.VC.VC.opendb
+*.vs/
 
 # Visual Studio profiler
 *.psess
@@ -213,6 +217,7 @@ publish/
 PublishScripts/
 
 # NuGet Packages
+# NuGet packages
 *.nupkg
 # NuGet Symbol Packages
 *.snupkg
@@ -242,6 +247,7 @@ _pkginfo.txt
 *.appx
 *.appxbundle
 *.appxupload
+**/packages/*
 
 # Visual Studio cache files
 # files ending in .cache can be ignored
@@ -420,3 +426,5 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+# Temporary files
+*.log
