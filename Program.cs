@@ -1,23 +1,9 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 namespace Kotikirjasto
 {
-    class Book
-    {
-        public string Title { get; set; }
-        public string Author { get; set; }
-        public int Year { get; set; }
-        public string Genre { get; set; }
-
-        public override string ToString()
-        {
-            return $"{Title} | {Author} | {Year} | {Genre}";
-        }
-    }
-
     class Program
     {
         static List<Book> library = new List<Book>();
@@ -29,16 +15,10 @@ namespace Kotikirjasto
 
             while (true)
             {
-                Console.WriteLine("\n📚 Kotikirjasto");
-                Console.WriteLine("1. Lisää kirja");
-                Console.WriteLine("2. Poista kirja");
-                Console.WriteLine("3. Näytä kaikki kirjat");
-                Console.WriteLine("4. Näytä kirjat genren mukaan");
-                Console.WriteLine("5. Etsi kirja");
-                Console.WriteLine("6. Tallenna ja poistu");
-
-                Console.Write("Valinta: ");
-                string choice = Console.ReadLine();
+                Console.WriteLine("\nHome library");
+                Console.WriteLine("1. Add book.\n2. Delete book. \n3. Show all books. \n4. Show by genre. \n5. Search books. \n6. Save and exit.");
+                Console.Write("Choose:");
+                string? choice = Console.ReadLine();
 
                 switch (choice)
                 {
@@ -61,7 +41,7 @@ namespace Kotikirjasto
                         SaveToFile();
                         return;
                     default:
-                        Console.WriteLine("Virheellinen valinta.");
+                        Console.WriteLine("Wrong choice.");
                         break;
                 }
             }
@@ -69,71 +49,98 @@ namespace Kotikirjasto
 
         static void AddBook()
         {
-            Console.Write("Kirjan nimi: ");
-            string title = Console.ReadLine();
+            Console.Write("Book title: ");
+            string? title = Console.ReadLine();
 
-            Console.Write("Kirjoittaja: ");
-            string author = Console.ReadLine();
+            Console.Write("Author: ");
+            string? author = Console.ReadLine();
 
-            Console.Write("Julkaisuvuosi: ");
+            Console.Write("Publication year: ");
             int year = int.Parse(Console.ReadLine());
 
             Console.Write("Genre: ");
-            string genre = Console.ReadLine();
+            string? genre = Console.ReadLine();
 
-            library.Add(new Book
-            {
-                Title = title,
-                Author = author,
-                Year = year,
-                Genre = genre
-            });
+            library.Add(new Book(title, author, year, genre));
 
-            Console.WriteLine("Kirja lisätty!");
+            Console.WriteLine("Book added!");
         }
 
         static void RemoveBook()
         {
             ShowAllBooks();
-            Console.Write("Anna poistettavan kirjan numero: ");
+            Console.Write("Give number of book: ");
 
             if (int.TryParse(Console.ReadLine(), out int index) &&
                 index > 0 && index <= library.Count)
             {
                 library.RemoveAt(index - 1);
-                Console.WriteLine("Kirja poistettu.");
+                Console.WriteLine("Book deleted.");
             }
             else
             {
-                Console.WriteLine("Virheellinen numero.");
+                Console.WriteLine("Choose another number.");
             }
         }
 
         static void ShowAllBooks()
         {
-           
+
         }
 
         static void ShowBooksByGenre()
         {
-            
+
         }
 
         static void SearchBooks()
         {
-            
-           
+            Console.WriteLine("Search book by title or author:");
+            string? search = Console.ReadLine();
+            bool found = false;
+
+            foreach (Book book in library)
+            {
+                if (book.Title.ToLower().Contains(search?.ToLower() ?? "") ||
+                    (book.Author.ToLower().Contains(search?.ToLower() ?? "")))
+                {
+                    Console.WriteLine(book.ToString());
+                    found = true;
+                }
+            }
+
+            if (!found)
+            {
+                Console.WriteLine("Book or author not found.");
+            }
         }
 
         static void SaveToFile()
         {
-           
+            using (StreamWriter writer = new StreamWriter(filePath))
+            {
+                foreach (Book book in library)
+                {
+                    writer.WriteLine($"{book.Title},{book.Author},{book.Year},{book.Genre}");
+                }
+            }
+            Console.WriteLine("Books saved!");
         }
 
         static void LoadFromFile()
         {
-           
-            
+            if (File.Exists(filePath))
+            {
+                string[] lines = File.ReadAllLines(filePath);
+                foreach (string line in lines)
+                {
+                    string[] parts = line.Split(',');
+                    if (parts.Length == 4)
+                    {
+                        library.Add(new Book(parts[0], parts[1], int.Parse(parts[2]), parts[3]));
+                    }
+                }
+            }
         }
     }
 }
