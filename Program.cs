@@ -85,7 +85,15 @@ namespace Kotikirjasto
 
         static void ShowAllBooks()
         {
-
+            if (library == null)
+            {
+                Console.WriteLine("The list does not exist.");
+            }
+            else if (library.Count == 0) 
+            {
+                Console.WriteLine("The list is empty.");
+            }
+            else library.ForEach(k => Console.WriteLine(k));
         }
 
         static void ShowBooksByGenre()
