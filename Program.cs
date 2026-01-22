@@ -6,11 +6,14 @@ namespace Kotikirjasto
 {
     class Program
     {
+        //create a list of books
         static List<Book> library = new List<Book>();
         static string filePath = "kirjat.txt";
 
+        //main-method that asks user what they want 
         static void Main(string[] args)
         {
+            //loads the previously saved book file if that exists
             LoadFromFile();
 
             while (true)
@@ -20,6 +23,7 @@ namespace Kotikirjasto
                 Console.Write("Choose:");
                 string? choice = Console.ReadLine();
 
+                //user chooses option
                 switch (choice)
                 {
                     case "1":
@@ -46,7 +50,7 @@ namespace Kotikirjasto
                 }
             }
         }
-
+        //method that adds a book to the list 
         static void AddBook()
         {
             Console.Write("Book title: ");
@@ -65,7 +69,7 @@ namespace Kotikirjasto
 
             Console.WriteLine("Book added!");
         }
-
+        //method that removes book from the list according to its number
         static void RemoveBook()
         {
             ShowAllBooks();
@@ -92,7 +96,7 @@ namespace Kotikirjasto
         {
 
         }
-
+        //searches books by title or author from the library
         static void SearchBooks()
         {
             Console.WriteLine("Search book by title or author:");
@@ -114,7 +118,7 @@ namespace Kotikirjasto
                 Console.WriteLine("Book or author not found.");
             }
         }
-
+        //method that saves the books from library to file
         static void SaveToFile()
         {
             using (StreamWriter writer = new StreamWriter(filePath))
@@ -126,7 +130,7 @@ namespace Kotikirjasto
             }
             Console.WriteLine("Books saved!");
         }
-
+        //method that loads all the books from the file to library
         static void LoadFromFile()
         {
             if (File.Exists(filePath))
