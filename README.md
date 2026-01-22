@@ -9,3 +9,4 @@ This is a group project for a software dev course. This is a home library applic
 
 Technologies used: 
 - C#
+- Git, Github
