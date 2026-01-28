@@ -102,7 +102,29 @@ namespace Kotikirjasto
 
         static void ShowBooksByGenre()
         {
+            if (library == null)
+            {
+               Console.WriteLine("Library is not initialized!");
+               return;
+            }
 
+            Console.Write("What genre are you looking for? ");
+            string genre = Console.ReadLine();
+
+            if (string.IsNullOrWhiteSpace(genre))
+            {
+                Console.WriteLine("You didn't enter a genre!");
+                return; 
+            }
+
+            var found = library.Where(k => k != null && string.Equals(k.Genre, genre, StringComparison.OrdinalIgnoreCase)).ToList();
+
+            if (found.Count == 0)
+            { 
+                Console.WriteLine("No books of this genre found!");
+            }
+            
+            else found.ForEach(k => Console.WriteLine(k));
         }
         //searches books by title or author from the library
         static void SearchBooks()
